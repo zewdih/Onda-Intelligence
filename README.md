@@ -1,73 +1,57 @@
-# React + TypeScript + Vite
+# Onda Intelligence
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Mission-first coastal cleanup optimization platform.
 
-Currently, two official plugins are available:
+Onda Intelligence uses drone shoreline mapping and AI analysis to identify high-density plastic zones, estimate waste volume, and optimize expedition logistics before deployment.
+It estimates visible vs buried waste, calculates person-hours required, and optimizes ship deployment for Plastic Odyssey expeditions using geospatial analysis.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## What It Does
 
-## React Compiler
+- **7 active missions** across Dakar, Santo Domingo, Recife, Manila, Thessaloniki, Abidjan, and Bali
+- **Shoreline segmentation** — divides coastlines into density-categorized segments (green / yellow / red)
+- **Waste estimation** — corrects visible tonnage for buried waste (40/60 split), computes kg/m² density
+- **Resource planning** — person-hours, crew size, and ship count calculator per mission
+- **Interactive map** — Leaflet-based with mission markers, zone polygons, and ship parking markers
+- **Priority dashboard** — missions grouped by HIGH / MEDIUM / LOW with expedition KPIs
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Trash Hotspots (Coming Soon)
 
-## Expanding the ESLint configuration
+The heat map layer has been temporarily removed while we train a **YOLOv8-mseg** drone-image segmentation model. Once trained, it will render precise trash detection polygons on the map.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+The integration is fully scaffolded:
+- Feature flag: `VITE_ENABLE_TRASH_HOTSPOTS_LAYER` (set to `true` in `.env` to enable)
+- Stub component: `TrashHotspotsLayer` — calls `hotspotsService.getHotspots()`, ready for GeoJSON rendering
+- API contract: `POST /api/inference` and `GET /api/hotspots` stubs defined
+- Types: `HotspotFeature` with properties for `run_id`, `confidence`, `model_version`, `trash_area_px`, `trash_area_m2`
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- React 19 + TypeScript + Vite
+- Leaflet + React-Leaflet (maps)
+- Framer Motion (animations)
+- Tailwind CSS v4 (styling)
+- Vitest (testing — 53 tests)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Getting Started
+
+```bash
+npm install
+cp .env.example .env
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server |
+| `npm run build` | Type-check + production build |
+| `npm test` | Run all tests |
+| `npm run preview` | Preview production build |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Why It Matters
+
+Cleanup missions often underestimate waste volume and logistics needs.
+Onda Intelligence enables data-driven expedition planning to reduce risk and maximize impact.
+
+Built for the Ocean Tech Hackathon.
