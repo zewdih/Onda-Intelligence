@@ -1,6 +1,8 @@
 # 🌊 Onda Intelligence  
 ## Drone-to-Decision Pipeline for Plastic Odyssey
 
+**Video Demo**: https://youtu.be/lsi1otKsSZo
+
 Onda Intelligence is a lightweight decision-support system that transforms drone imagery into actionable cleanup planning insights for Plastic Odyssey.
 
 Rather than presenting raw object detections or abstract counts, Onda translates aerial plastic detections into operational metrics that mission planners can use directly:
